@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Get Account</h1>
+<form onsubmit="return getAccount(event)" novalidate>
+    <p>
+        <label for="getAccountId">Account ID</label><br>
+        <input id="getAccountId" name="account_id" required="" size="32" type="text"><br>
+        
+    </p>
+    <p><input type="submit" value="Get Account"></p>
+</form>
+<hr>
+<h1>Open Account</h1>
+<form action="/accounts" method="post" novalidate>
+    {{ open_account.hidden_tag() }}
+    <p>
+        {{ open_account.full_name.label }}<br>
+        {{ open_account.full_name(size=32) }}<br>
+        {% for error in open_account.full_name.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ open_account.email_address.label }}<br>
+        {{ open_account.email_address(size=32) }}<br>
+        {% for error in open_account.email_address.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p
+    <p>{{ open_account.submit() }}</p>
+</form>
+
+<script>
+    function getAccount(e) {
+        e.preventDefault();
+        accountId = document.getElementById("getAccountId").value;
+        location.href = `/accounts/${accountId}`;
+    }
+</script>
+{% endblock %}

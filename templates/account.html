@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Account {{ account.id }}</h1>
+<ul>
+    <li><b>Full Name</b> {{ account.full_name }}</li>
+    <li><b>Email Address</b> {{ account.email_address }}</li>
+    <li><b>Balance</b> ${{ account.balance }}</li>
+    <li><b>Overdraft Limit</b> ${{ account.overdraft_limit }}</li>
+    <li><b>Is Closed</b> {{ account.is_closed }}</li>
+</ul>
+<hr>
+<form action="/accounts/{{ account.id }}/deposit" method="post" novalidate>
+    {{ deposit_funds.hidden_tag() }}
+    <p>
+        {{ deposit_funds.amount.label }}<br>
+        {{ deposit_funds.amount(size=32) }}<br>
+        {% for error in deposit_funds.amount.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>{{ deposit_funds.submit() }}</p>
+</form>
+<hr>
+<form action="/accounts/{{ account.id }}/withdraw" method="post" novalidate>
+    {{ withdraw_funds.hidden_tag() }}
+    <p>
+        {{ withdraw_funds.amount.label }}<br>
+        {{ withdraw_funds.amount(size=32) }}<br>
+        {% for error in withdraw_funds.amount.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>{{ withdraw_funds.submit() }}</p>
+</form>
+<hr>
+<form action="/accounts/{{ account.id }}/transfer" method="post" novalidate>
+    {{ transfer_funds.hidden_tag() }}
+    <p>
+        {{ transfer_funds.account_id.label }}<br>
+        {{ transfer_funds.account_id(size=32) }}<br>
+        {% for error in transfer_funds.account_id.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ transfer_funds.amount.label }}<br>
+        {{ transfer_funds.amount(size=32) }}<br>
+        {% for error in transfer_funds.amount.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>{{ transfer_funds.submit() }}</p>
+</form>
+<hr>
+<form action="/accounts/{{ account.id }}/overdraft_limit" method="post" novalidate>
+    {{ overdraft_limit.hidden_tag() }}
+    <p>
+        {{ overdraft_limit.limit.label }}<br>
+        {{ overdraft_limit.limit(size=32) }}<br>
+        {% for error in overdraft_limit.limit.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>{{ overdraft_limit.submit() }}</p>
+</form>
+<hr>
+<form action="/accounts/{{ account.id }}/close" method="POST" novalidate>
+    <p><input type="submit" value="Close Account"></p>
+</form>
+{% endblock %}

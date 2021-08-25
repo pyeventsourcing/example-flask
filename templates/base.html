@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - Bank Accounts</title>
+        {% else %}
+        <title>Welcome to Bank Accounts</title>
+        {% endif %}
+    </head>
+    <body>
+        <div><a href="{{ url_for('home') }}">Bank Accounts</a></div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>

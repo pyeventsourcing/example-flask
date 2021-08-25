@@ -10,6 +10,12 @@
     dest: /opt/{{ dns_name }}/requirements.txt
     mode: 0600
 
+- name: Copy "wsgi.py" file
+  copy:
+    src: wsgi.py
+    dest: /opt/{{ dns_name }}/wsgi.py
+    mode: 0600
+
 - name: Copy "docker-compose.yml" file
   copy:
     src: docker-compose.yml

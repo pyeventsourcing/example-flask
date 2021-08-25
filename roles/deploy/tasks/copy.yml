@@ -4,9 +4,25 @@
     state: directory
     mode: 0700
 
-- name: Copy files
+- name: Copy "docker-compose.yml" file
+  copy:
+    src: docker-compose.yml
+    dest: /opt/{{ dns_name }}/docker-compose.yml
+    mode: 0600
+
+- name: Copy "docker-compose.prod.yml" file
+  copy:
+    src: docker-compose.prod.yml
+    dest: /opt/{{ dns_name }}/docker-compose.prod.yml
+    mode: 0600
+
+- name: Copy "Dockerfile" file
+  copy:
+    src: Dockerfile
+    dest: /opt/{{ dns_name }}/Dockerfile
+    mode: 0600
+
+- name: Copy "bankaccounts" file
   synchronize:
-      src: .
+      src: bankaccounts
       dest: /opt/{{ dns_name }}
-      rsync_opts:
-        - "--exclude=__pycache__"

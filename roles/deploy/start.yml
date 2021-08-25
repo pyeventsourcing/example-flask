@@ -1,0 +1,9 @@
+- name: Start services
+  community.general.docker_compose:
+    project_src: /opt/{{ dns_name }}
+    files:
+      - docker-compose.yml
+      - docker-compose.prod.yml
+    build: yes
+    pull: yes
+    state: present

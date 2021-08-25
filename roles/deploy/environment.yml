@@ -1,0 +1,20 @@
+- name: Add VIRTUAL_HOST to .env file
+  lineinfile:
+    path: /opt/{{ dns_name }}/.env
+    regexp: '^VIRTUAL_HOST='
+    line: "VIRTUAL_HOST={{ dns_name }}"
+    create: yes
+
+- name: Add FLASK_ENV to .env file
+  lineinfile:
+    path: /opt/{{ dns_name }}/.env
+    regexp: '^FLASK_ENV='
+    line: "FLASK_ENV={{ flask_env }}"
+    create: yes
+    create: yes
+
+- name: Ensure .env file permissions
+  file:
+    path: /opt/{{ dns_name }}/.env
+    state: file
+    mode: 0600

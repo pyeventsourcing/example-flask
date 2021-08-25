@@ -1,0 +1,8 @@
+---
+- name: Deploy an app instance
+  hosts: all
+  become: true
+
+
+  roles:
+    - role: deploy

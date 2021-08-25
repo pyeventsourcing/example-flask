@@ -1,0 +1,66 @@
+stages:
+  - test
+  - review
+  - deploy
+
+review:
+  image: willhallonline/ansible:alpine
+  stage: review
+  variables:
+    ANSIBLE_HOST_KEY_CHECKING: 'false'
+  before_script:
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - export APP_SECRET_KEY=$(openssl rand -base64 12)
+  script:
+    - ansible-playbook -i hosts/dev00 -u ci --private-key=~/.ssh/id_rsa deploy.yml --extra-vars "dns_name=$CI_COMMIT_REF_NAME.es-banking.dev00.vatsi.net"
+  only:
+    - branches
+  except:
+    - master
+  environment:
+    name: $CI_COMMIT_REF_NAME.es-banking.dev00.vatsi.net
+    url: https://$CI_COMMIT_REF_NAME.es-banking.dev00.vatsi.net
+    on_stop: stop_review
+    auto_stop_in: 1 week
+
+stop_review:
+  image: willhallonline/ansible:alpine
+  stage: review
+  variables:
+    ANSIBLE_HOST_KEY_CHECKING: 'false'
+  before_script:
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - export APP_SECRET_KEY=$(openssl rand -base64 12)
+  script:
+    - ansible-playbook -i hosts/dev00 -u ci --private-key=~/.ssh/id_rsa roles/deploy/tasks/stop.yml --extra-vars "dns_name=$CI_COMMIT_REF_NAME.es-banking.dev00.vatsi.net"
+  only:
+    - branches
+  except:
+    - master
+  when: manual
+  environment:
+    name: $CI_COMMIT_REF_NAME.es-banking.dev00.vatsi.net
+    url: https://$CI_COMMIT_REF_NAME.es-banking.dev00.vatsi.net
+    action: stop
+
+deploy:
+  image: willhallonline/ansible:alpine
+  stage: deploy
+  variables:
+    ANSIBLE_HOST_KEY_CHECKING: 'false'
+  before_script:
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - export APP_SECRET_KEY=$(openssl rand -base64 12)
+  script:
+    - ansible-playbook -i hosts/dev00 -u ci --private-key=~/.ssh/id_rsa deploy.yml --extra-vars "dns_name=es-banking.dev00.vatsi.net"
+  only:
+    - master
+  environment:
+    name: es-banking.dev00.vatsi.net
+    url: https://es-banking.dev00.vatsi.net

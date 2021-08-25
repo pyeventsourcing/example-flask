@@ -1,0 +1,14 @@
+version: '3.4'
+
+
+services:
+
+  app:
+    ports:
+      - "80:80/tcp"
+    volumes:
+      - ".:/app"
+    environment:
+      APP_SECRET_KEY: 30jMayzIQecYTB4v
+      FLASK_ENV: development
+

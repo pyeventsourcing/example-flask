@@ -1,0 +1,4 @@
+- name: Remove existing "opt" sub directory
+  file:
+    path: "/opt/{{ dns_name }}"
+    state: absent

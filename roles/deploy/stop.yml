@@ -1,0 +1,18 @@
+---
+- name: Stop an app instance
+  hosts: all
+  become: true
+
+  vars:
+    dns_name: localhost
+    flask_env: staging
+
+  tasks:
+
+    - name: Stop services
+      community.general.docker_compose:
+        project_src: /opt/{{ dns_name }}
+        files:
+          - docker-compose.yml
+          - docker-compose.prod.yml
+        state: absent

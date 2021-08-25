@@ -1,0 +1,11 @@
+- name: Remove existing "opt" sub directory
+  import_tasks: clean-up.yml
+
+- name: Copy project files
+  import_tasks: copy.yml
+
+- name: Setup environment variables
+  import_tasks: environment.yml
+
+- name: Start services
+  import_tasks: start.yml

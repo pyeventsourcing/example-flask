@@ -1,0 +1,12 @@
+- name: Ensure "opt" sub directory exists
+  file:
+    path: "/opt/{{ dns_name }}"
+    state: directory
+    mode: 0700
+
+- name: Copy files
+  synchronize:
+      src: .
+      dest: /opt/{{ dns_name }}
+      rsync_opts:
+        - "--exclude=__pycache__"

@@ -19,7 +19,7 @@
 - name: Copy "templates" file
   copy:
     src: templates
-    dest: /opt/{{ dns_name }}/templates
+    dest: /opt/{{ dns_name }}
     mode: 0600
 
 - name: Copy "docker-compose.yml" file

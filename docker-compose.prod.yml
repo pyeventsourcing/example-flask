@@ -1,0 +1,16 @@
+version: "3.4"
+
+
+networks:
+  http_fe:
+    external: true
+
+
+services:
+  app:
+    environment:
+      VIRTUAL_HOST: ${VIRTUAL_HOST}
+      LETSENCRYPT_EMAIL: webmaster@vatsi.net
+      LETSENCRYPT_HOST: ${VIRTUAL_HOST}
+    networks:
+      - http_fe

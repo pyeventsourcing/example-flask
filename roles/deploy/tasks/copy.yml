@@ -16,6 +16,12 @@
     dest: /opt/{{ dns_name }}/wsgi.py
     mode: 0600
 
+- name: Copy "templates" file
+  copy:
+    src: templates
+    dest: /opt/{{ dns_name }}/templates
+    mode: 0600
+
 - name: Copy "docker-compose.yml" file
   copy:
     src: docker-compose.yml
